@@ -1,10 +1,9 @@
-# palaver
+# palaver - A chat room app
 
-A chat room app
 ![demo](/public/palaver-gif.gif)
 
 ## Summary
 
-> React
-> Material-UI
-> Firebase
+<li>React</li>
+<li>> Material-UI</li>
+<li>> Firebase</li>
