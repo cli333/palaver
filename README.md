@@ -1,4 +1,4 @@
-# palaver - A chat room app
+# palaver - a chat room app
 
 ![demo](/public/palaver-gif.gif)
 
