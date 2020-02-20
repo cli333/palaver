@@ -123,8 +123,8 @@ function Navigator(props) {
             # Channels
           </ListItemText>
         </ListItem>
-        {channels.map(channel => (
-          <React.Fragment key={channel.name}>
+        {channels.map((channel, i) => (
+          <React.Fragment key={`${channel.name} ${i}`}>
             <ListItem key={channel.name} className={clsx(classes.item)}>
               <ListItemIcon className={classes.itemIcon}>
                 <ForumIcon />

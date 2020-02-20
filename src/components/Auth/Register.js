@@ -96,89 +96,97 @@ const Register = ({ history }) => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <TimelineIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Register
-        </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={e => handleSubmit(e)}
-        >
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={e => handleChange(e)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={e => handleChange(e)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="passwordConfirmation"
-            label="Password Confirmation"
-            type="password"
-            id="passwordConfirmation"
-            autoComplete="current-password"
-            value={passwordConfirmation}
-            onChange={e => handleChange(e)}
-          />
-          {error ? (
-            <Typography component="h5" variant="h6">
-              {error}
-            </Typography>
-          ) : null}
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            className={classes.submit}
-            disabled={submitting}
-            color="primary"
+    <Grid
+      container
+      spacing={0}
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: "75vh" }}
+    >
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <TimelineIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Register
+          </Typography>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={e => handleSubmit(e)}
           >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Link
-                className={classes.link}
-                variant="body2"
-                onClick={() => history.push("/login")}
-              >
-                {"Already have an account? Log In"}
-              </Link>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={e => handleChange(e)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={e => handleChange(e)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="passwordConfirmation"
+              label="Password Confirmation"
+              type="password"
+              id="passwordConfirmation"
+              autoComplete="current-password"
+              value={passwordConfirmation}
+              onChange={e => handleChange(e)}
+            />
+            {error ? (
+              <Typography component="h5" variant="h6">
+                {error}
+              </Typography>
+            ) : null}
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              className={classes.submit}
+              disabled={submitting}
+              color="primary"
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link
+                  className={classes.link}
+                  variant="body2"
+                  onClick={() => history.push("/login")}
+                >
+                  {"Already have an account? Log In"}
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </form>
+        </div>
+      </Container>
+    </Grid>
   );
 };
 

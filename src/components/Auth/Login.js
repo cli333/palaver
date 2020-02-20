@@ -62,74 +62,82 @@ const Login = ({ history }) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <TimelineIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={e => handleSubmit(e)}
-        >
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={e => handleChange(e)}
-            value={values.email}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={e => handleChange(e)}
-            values={values.password}
-          />
-          {error ? (
-            <Typography component="h5" variant="h6">
-              {error}
-            </Typography>
-          ) : null}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+    <Grid
+      container
+      spacing={0}
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: "75vh" }}
+    >
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <TimelineIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={e => handleSubmit(e)}
           >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Link
-                className={classes.link}
-                onClick={() => history.push("/register")}
-                variant="body2"
-              >
-                {"Don't have an account? Register"}
-              </Link>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={e => handleChange(e)}
+              value={values.email}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={e => handleChange(e)}
+              values={values.password}
+            />
+            {error ? (
+              <Typography component="h5" variant="h6">
+                {error}
+              </Typography>
+            ) : null}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link
+                  className={classes.link}
+                  onClick={() => history.push("/register")}
+                  variant="body2"
+                >
+                  {"Don't have an account? Register"}
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </form>
+        </div>
+      </Container>
+    </Grid>
   );
 };
 
