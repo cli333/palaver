@@ -5,17 +5,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import Fab from "@material-ui/core/Fab";
+import SendIcon from "@material-ui/icons/Send";
 
 const styles = theme => ({
   paper: {
-    maxWidth: 936,
+    maxWidth: 1500,
     margin: "auto",
     overflow: "hidden"
   },
@@ -40,51 +38,53 @@ function Content(props) {
   const { classes } = props;
 
   return (
-    <Paper className={classes.paper}>
-      <AppBar
-        className={classes.searchBar}
-        position="static"
-        color="default"
-        elevation={0}
-      >
-        <Toolbar>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <SearchIcon className={classes.block} color="inherit" />
+    <React.Fragment>
+      <Paper className={classes.paper} square>
+        <AppBar
+          className={classes.searchBar}
+          position="static"
+          color="default"
+          elevation={0}
+        >
+          <Toolbar>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <SearchIcon className={classes.block} color="inherit" />
+              </Grid>
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  placeholder="Search this channel"
+                  InputProps={{
+                    disableUnderline: true,
+                    className: classes.searchInput
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                placeholder="Search by email address, phone number, or user UID"
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.searchInput
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.addUser}
-              >
-                Add user
-              </Button>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon className={classes.block} color="inherit" />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.contentWrapper}>
+          <Typography color="textSecondary" align="center">
+            No messages in this channel yet
+          </Typography>
+        </div>
+        <Grid container style={{ padding: "20px" }}>
+          <Grid item xs={11}>
+            <TextField
+              id="outlined-basic-email"
+              label="Send a message"
+              fullWidth
+            />
           </Grid>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.contentWrapper}>
-        <Typography color="textSecondary" align="center">
-          No users for this project yet
-        </Typography>
-      </div>
-    </Paper>
+          <Grid xs={1} align="right">
+            <Fab color="primary" aria-label="add">
+              <SendIcon />
+            </Fab>
+          </Grid>
+        </Grid>
+      </Paper>
+    </React.Fragment>
   );
 }
 
