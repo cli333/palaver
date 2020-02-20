@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   createMuiTheme,
@@ -9,6 +9,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Hidden from "@material-ui/core/Hidden";
 import Navigator from "./Navigator";
 import Content from "./Content";
+
+import firebase from "../../firebase/firebase";
 
 let theme = createMuiTheme({
   palette: {
@@ -149,13 +151,20 @@ const styles = {
   }
 };
 
-function Dashboard(props) {
-  const { classes } = props;
+function Dashboard({ classes, history }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        history.push("/login");
+      }
+    });
+  }, [history]);
 
   return (
     <ThemeProvider theme={theme}>

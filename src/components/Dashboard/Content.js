@@ -15,7 +15,8 @@ const styles = theme => ({
   paper: {
     maxWidth: 1500,
     margin: "auto",
-    overflow: "hidden"
+    overflow: "hidden",
+    height: "90vh"
   },
   searchBar: {
     borderBottom: "1px solid rgba(0, 0, 0, 0.12)"

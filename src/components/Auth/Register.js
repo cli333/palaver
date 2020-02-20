@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: "rgb(105, 105, 105)"
+    backgroundColor: "#009be5"
   },
   form: {
     width: "100%",
@@ -48,14 +48,6 @@ const Register = ({ history }) => {
   const { email, password, passwordConfirmation } = values;
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       history.push("/");
-  //     }
-  //   });
-  // }, [history]);
 
   function handleSubmit(e) {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: "rgb(105, 105, 105)"
+    backgroundColor: "#009be5"
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -38,18 +38,27 @@ const useStyles = makeStyles(theme => ({
 
 const Login = ({ history }) => {
   const classes = useStyles();
-
-  // useEffect(() => {
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       history.push("/");
-  //     }
-  //   });
-  // }, [history]);
+  const [values, setValues] = useState({
+    email: "",
+    password: ""
+  });
+  const [error, setError] = useState(null);
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("login");
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(values.email, values.password)
+      .then(() => history.push("/"))
+      .catch(error => setError(error.message));
+  };
+
+  const handleChange = e => {
+    e.persist();
+    setValues(prevValues => ({
+      ...prevValues,
+      [e.target.name]: e.target.value
+    }));
   };
 
   return (
@@ -77,6 +86,8 @@ const Login = ({ history }) => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={e => handleChange(e)}
+            value={values.email}
           />
           <TextField
             variant="outlined"
@@ -88,8 +99,14 @@ const Login = ({ history }) => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={e => handleChange(e)}
+            values={values.password}
           />
-
+          {error ? (
+            <Typography component="h5" variant="h6">
+              {error}
+            </Typography>
+          ) : null}
           <Button
             type="submit"
             fullWidth

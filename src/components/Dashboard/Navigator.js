@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
@@ -9,6 +9,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ForumIcon from "@material-ui/icons/Forum";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
+import TimelineIcon from "@material-ui/icons/Timeline";
+import Button from "@material-ui/core/Button";
+
+import firebase from "../../firebase/firebase";
 
 import { context } from "../../context/context";
 
@@ -63,9 +67,14 @@ function Navigator(props) {
   const { user, channels, currentChannel, setCurrentChannel } = useContext(
     context
   );
+  const [logoutShown, setLogoutShown] = useState(false);
 
   const displayUserName = user => {
     return user.email;
+  };
+
+  const logout = () => {
+    firebase.auth().signOut();
   };
 
   return (
@@ -74,17 +83,35 @@ function Navigator(props) {
         <ListItem
           className={clsx(classes.firebase, classes.item, classes.itemCategory)}
         >
-          palaver
+          <TimelineIcon />
+          <span>&nbsp;</span>palaver
         </ListItem>
-        <List>
-          <ListItem button key="RemySharp">
-            <ListItemIcon>
-              <Avatar />
-            </ListItemIcon>
-            <ListItemText className={clsx(classes.avatarText)}>
-              {user && displayUserName(user)}
-            </ListItemText>
-          </ListItem>
+        <List
+          onMouseEnter={() => setLogoutShown(true)}
+          onMouseLeave={() => setLogoutShown(false)}
+        >
+          {" "}
+          {!logoutShown ? (
+            <ListItem button key="user">
+              <ListItemIcon>
+                <Avatar />
+              </ListItemIcon>
+              <ListItemText className={clsx(classes.avatarText)}>
+                {user && displayUserName(user)}
+              </ListItemText>
+            </ListItem>
+          ) : (
+            <ListItem button key="logout">
+              <Button
+                variant="outlined"
+                color="secondary"
+                fullWidth
+                onClick={() => logout()}
+              >
+                Logout
+              </Button>
+            </ListItem>
+          )}
         </List>
 
         <ListItem className={classes.categoryHeader}>
