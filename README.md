@@ -5,5 +5,5 @@
 ## Summary
 
 <li>React</li>
-<li>> Material-UI</li>
-<li>> Firebase</li>
+<li> Material-UI</li>
+<li> Firebase</li>
