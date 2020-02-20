@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,9 +11,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
 
-import MyFirebase from "../../firebase/firebase";
+import firebase from "../../firebase/firebase";
 
-import validateForm from "./validateForm";
+import { formIsValid } from "../../utils/utils";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: "rgb(105, 105, 105)"
   },
   form: {
     width: "100%",
@@ -32,29 +32,76 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  link: {
+    cursor: "pointer"
   }
 }));
 
-// initial state
-const INIT_STATE = {
-  email: "",
-  password: "",
-  passwordConfirmation: ""
-};
-
-const Register = props => {
+const Register = ({ history }) => {
   const classes = useStyles();
-
-  const {
-    handleChange,
-    handleSubmit,
-    formValues: { email, password, passwordConfirmation },
-    submitted
-  } = validateForm(INIT_STATE);
-  const { history } = props;
-
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    passwordConfirmation: ""
+  });
+  const { email, password, passwordConfirmation } = values;
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     if (user) {
+  //       history.push("/");
+  //     }
+  //   });
+  // }, [history]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    if (!formIsValid(values)) {
+      setError("Password confirmation does not match");
+      setSubmitting(false);
+      return;
+    }
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(authResponse => {
+        const userObj = {
+          email: authResponse.user.email,
+          id: authResponse.user.uid
+        };
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(userObj.id)
+          .set(userObj)
+          .then(() => history.push("/"))
+          .catch(error => {
+            console.log("DB ERROR", error);
+            setError(error.message);
+          });
+      })
+      .catch(error => {
+        console.log(error);
+        setError(error.message);
+      })
+      .finally(() => {
+        setSubmitting(false);
+        setError(null);
+      });
+  }
+
+  function handleChange(e) {
+    // synthetic events readup
+    e.persist();
+    setValues(prevValues => ({
+      ...prevValues,
+      [e.target.name]: e.target.value
+    }));
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -103,27 +150,36 @@ const Register = props => {
             required
             fullWidth
             name="passwordConfirmation"
-            label="Confirm your password"
-            type="passwordConfirmation"
+            label="Password Confirmation"
+            type="password"
             id="passwordConfirmation"
             autoComplete="current-password"
             value={passwordConfirmation}
             onChange={e => handleChange(e)}
           />
+          {error ? (
+            <Typography component="h5" variant="h6">
+              {error}
+            </Typography>
+          ) : null}
 
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
-            disabled={submitted}
+            disabled={submitting}
+            color="primary"
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item>
-              <Link variant="body2" onClick={() => history.push("/login")}>
+              <Link
+                className={classes.link}
+                variant="body2"
+                onClick={() => history.push("/login")}
+              >
                 {"Already have an account? Log In"}
               </Link>
             </Grid>

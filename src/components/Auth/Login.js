@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
 
-// import MyFirebase from "../../firebase/firebase";
+import firebase from "../../firebase/firebase";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: "rgb(105, 105, 105)"
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -30,12 +30,22 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  link: {
+    cursor: "pointer"
   }
 }));
 
-const Login = props => {
+const Login = ({ history }) => {
   const classes = useStyles();
-  const { history } = props;
+
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     if (user) {
+  //       history.push("/");
+  //     }
+  //   });
+  // }, [history]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -91,7 +101,11 @@ const Login = props => {
           </Button>
           <Grid container>
             <Grid item>
-              <Link onClick={() => history.push("/register")} variant="body2">
+              <Link
+                className={classes.link}
+                onClick={() => history.push("/register")}
+                variant="body2"
+              >
                 {"Don't have an account? Register"}
               </Link>
             </Grid>
